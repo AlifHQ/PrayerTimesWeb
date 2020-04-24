@@ -1,0 +1,241 @@
+﻿<!DOCTYPE html>
+<!---
+
+# This code was closed source, but made open-source on 24/01/2020 for ALIF
+  --->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sunni Manzil | Manzil Media</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body onload="initFunctions()">
+<div class="body">
+<center>
+<div class="header">Sunni Manzil <br> <small><font color="grey">Manzil Media Developers</font> </small> </div>
+<br>
+<div class="month-container">
+  <span class="arabic" style="font-size:20px;"  id="tdysHijriDay"></span>
+  <span class="arabic" id="thisMonthAr"></span>
+  <span class="arabic"  id="thisMonthEn"></span>
+  <span class="arabic"  id="tdysHijriYear"></span>
+
+</div>
+<br>
+<select id="methodSelect" onchange="onSelectedMethod(this);">
+    <option value="1" id="1">University of Islamic Sciences, Karachi</option>
+    <option value="2" id="2">Islamic Society of North America</option>
+    <option value="3" id="3">Muslim World League</option>
+    <option value="4" id="4">Umm Al-Qura University, Makkah</option>
+    <option value="5" id="5">Egyptian General Authority of Survey</option>
+    <option value="8" id="8">Gulf Region</option>
+    <option value="9" id="9">Kuwait</option>
+    <option value="10" id="10">Qatar</option>
+    <option value="11" id="11">Majlis Ugama Islam Singapura, Singapore</option>
+    <option value="12" id="12">Union Organization islamic de France</option>
+    <option value="13" id="13">Diyanet İşleri Başkanlığı, Turkey</option>
+    <option value="14" id="14">Spiritual Administration of Muslims of Russia</option>
+
+</select> <br>
+<div class="methodDisplay">Current Method: <span id="methodDisplay"></span></div>
+
+
+<div class="prayer-time-list">
+<div class="single-li"><table width="100%"><tr><td width="25%">Fajr </td> <td width="25%"><span id="fajr"></span> </td></tr></table></div>
+<div class="single-li"><table width="100%"><tr><td width="25%">Sunrise </td> <td width="25%"><span id="sunrise"></span> </td></tr></table></div>
+<div class="single-li"><table width="100%"><tr><td width="25%">Dhuhr </td> <td width="25%"><span id="dhuhr"></span> </td></tr></table></div>
+<div class="single-li"><table width="100%"><tr><td width="25%"> Asr</td> <td width="25%"><span id="asr"></span> </td></tr></table></div>
+<div class="single-li"><table width="100%"><tr><td width="25%"> Maghrib</td> <td width="25%"><span id="maghrib"></span> </td></tr></table></div>
+<div class="single-li"><table width="100%"><tr><td width="25%"> Isha</td> <td width="25%"><span id="isha"></span> </td></tr></table></div>
+
+</div>
+</center>
+</div>
+    <script>
+      var methodList = [
+      "University of Islamic Sciences, Karachi",
+      "Islamic Society of North America",
+      "Muslim World League",
+      "Umm Al-Qura University, Makkah",
+      "Egyptian General Authority of Survey",
+      "Gulf Region",
+      "Kuwait",
+      "Qatar",
+      "Majlis Ugama Islam Singapura, Singapore",
+      "Union Organization islamic de France",
+      "Diyanet İşleri Başkanlığı, Turkey",
+      "Spiritual Administration of Muslims of Russia",
+      ];
+      var apiURL;
+      var method;
+      if(method != undefined || method != null){
+        method = 4;
+      }else{
+        method = localStorage.getItem("method");
+
+      }
+      switch (method) {
+        case "1":
+          var caseMeth = methodList[0];
+          break;
+          case "2":
+            var caseMeth = methodList[1];
+            break;
+            case "3":
+              var caseMeth = methodList[2];
+              break;
+              case "4":
+                var caseMeth = methodList[3];
+                break;
+                case "5":
+                  var caseMeth = methodList[4];
+                  break;
+                  case "8":
+                    var caseMeth = methodList[5];
+                    break;
+                    case "9":
+                      var caseMeth = methodList[6];
+                      break;
+                      case "10":
+                        var caseMeth = methodList[7];
+                        break;
+                        case "11":
+                          var caseMeth = methodList[8];
+                          break;
+                          case "12":
+                            var caseMeth = methodList[9];
+                            break;
+                            case "13":
+                              var caseMeth = methodList[10];
+                              break;
+                              case "14":
+                                var caseMeth = methodList[11];
+                                break;
+        default:
+          var caseMeth = "Not Selected";
+      }
+      document.getElementById("methodDisplay").innerHTML = caseMeth;
+
+      var e = document.getElementById("methodSelect");
+      document.getElementById(method).selected = "true";
+
+
+
+
+      function onSelectedMethod(chose){
+        localStorage.setItem("method", chose.value);
+      location.reload();
+      }
+
+      function initFunctions(){
+        getLocation();
+      }
+
+
+      function tConvert (time) {
+  time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+  if (time.length > 1) { // If time format correct
+    time = time.slice (1);  // Remove full string match value
+    time[5] = +time[0] < 12 ? ' AM' : ' PM'; // Set AM/PM
+    time[0] = +time[0] % 12 || 12; // Adjust hours
+  }
+  return time.join (''); // return adjusted time or original string
+}
+
+
+
+    var x = document.getElementById("demo");
+
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+      } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+      }
+    }
+
+    function showPosition(position) {
+    var d = new Date();
+    var month = d.getMonth()+1;
+    var year = d.getFullYear();
+    var date = d.getDate();
+    var latitutde = position.coords.latitude;
+    var longitude = position.coords.longitude;
+
+    apiURL = "http://api.aladhan.com/v1/calendar?latitude="+latitutde+"&longitude="+longitude+"&method="+method+"&month="+month+"&year="+year;
+  $.getJSON(apiURL, function(data) {
+    var todaysData = data.data[date-1];
+    var tdysPryrTime = todaysData.timings;
+    var tdysHijri = todaysData.date.hijri;
+    var tdysHijriDay = tdysHijri.day;
+    var tdysHijriYear = tdysHijri.year;
+    var thisMonthAr = tdysHijri.month.ar;
+    var thisMonthEn = tdysHijri.month.en;
+    var fajr = tdysPryrTime.Fajr.replace(' (IST)','');
+    var sunrise = tdysPryrTime.Sunrise.replace(' (IST)','');
+    var dhuhr = tdysPryrTime.Dhuhr.replace(' (IST)','');
+    var asr = tdysPryrTime.Asr.replace(' (IST)','');
+    var maghrib = tdysPryrTime.Maghrib.replace(' (IST)','');
+    var isha = tdysPryrTime.Isha.replace(' (IST)','');
+$("#fajr").html(tConvert(fajr));
+$("#sunrise").html(tConvert(sunrise));
+$("#dhuhr").html(tConvert(dhuhr));
+$("#asr").html(tConvert(asr));
+$("#maghrib").html(tConvert(maghrib));
+$("#isha").html(tConvert(isha));
+$("#tdysHijriDay").html(tdysHijriDay);
+$("#tdysHijriYear").html(tdysHijriYear);
+$("#thisMonthAr").html(thisMonthAr);
+$("#thisMonthEn").html(thisMonthEn);
+
+});
+
+}
+
+/*
+Prayer Methods:
+1 - University of Islamic Sciences, Karachi
+2 - Islamic Society of North America
+3 - Muslim World League
+4 - Umm Al-Qura University, Makkah
+5 - Egyptian General Authority of Survey
+8 - Gulf Region
+9 - Kuwait
+10 - Qatar
+11 - Majlis Ugama Islam Singapura, Singapore
+12 - Union Organization islamic de France
+13 - Diyanet İşleri Başkanlığı, Turkey
+14 - Spiritual Administration of Muslims of Russia
+
+*/
+function createCORSRequest(method, url) {
+  var xhr = new XMLHttpRequest();
+  if ("withCredentials" in xhr) {
+    xhr.open(method, apiURL, true);
+  } else if (typeof XDomainRequest != "undefined") {
+    xhr = new XDomainRequest();
+    xhr.open(method, apiURL);
+  } else {
+    xhr = null;
+  }
+  return xhr;
+}
+var xhr = createCORSRequest('GET', apiURL);
+if (!xhr) {
+  throw new Error('CORS not supported');
+}
+xhr.onload = function() {
+var responseText = xhr.responseText;
+console.log(responseText);
+// process the response.
+};
+
+xhr.onerror = function() {
+console.log('There was an error!');
+};
+</script>
+
+<script src="jquery.min.js" charset="utf-8"></script>
+  </body>
+</html>
