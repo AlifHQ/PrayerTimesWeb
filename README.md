@@ -5,3 +5,5 @@ This code is used in Sunni Manzil Adkar app, to fetch location based prayer time
 * Users can change the calculation methods.
 * Methods will be autosaved to ```localStorage``` *(You may use ```sessionStorage``` instead).* So whenever the user revisits the page, previously  selected method will be fetched.
 * API responses are received from https://aladhan.com/prayer-times-api
+
+## [DEMO](https://alifhq.github.io/PrayerTimesWeb/)
