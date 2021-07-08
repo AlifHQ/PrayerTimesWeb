@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!---
 
 # This code was closed source, but made open-source on 24/01/2020 for ALIF
@@ -163,7 +163,7 @@
     var latitutde = position.coords.latitude;
     var longitude = position.coords.longitude;
 
-    apiURL = "http://api.aladhan.com/v1/calendar?latitude="+latitutde+"&longitude="+longitude+"&method="+method+"&month="+month+"&year="+year;
+    apiURL = "https://api.aladhan.com/v1/calendar?latitude="+latitutde+"&longitude="+longitude+"&method="+method+"&month="+month+"&year="+year;
   $.getJSON(apiURL, function(data) {
     var todaysData = data.data[date-1];
     var tdysPryrTime = todaysData.timings;
